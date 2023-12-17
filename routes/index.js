@@ -4,7 +4,7 @@ const router = require('express').Router();
 const apiRouter = require('./api-routes');
 const htmlRouter = require('./html-routes');
 
-router.use('./api-routes', apiRouter);
-router.use('./html-routes', htmlRouter);
+router.use('/api', apiRouter);
+router.use('/', htmlRouter);
 
 module.exports = router;
