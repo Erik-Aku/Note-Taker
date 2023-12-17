@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require("fs");
 const api = require('./routes/index.js');
 const htmlRoutes = require('./routes/html-routes.js')
-const noteData = require('./db/db.json');
+const uuid = require('./helpers/uuid');
+// const { title } = require('process');
 
 const PORT = process.env.PORT || 8000;
 
@@ -18,6 +19,7 @@ app.use('/', htmlRoutes );
 
 app.use(express.static("public"));
 
+// read the db.json file and return all saved notes as JSON.
 app.get("/api/notes", (req, res) => {
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
         if (err) {
@@ -28,6 +30,40 @@ app.get("/api/notes", (req, res) => {
             console.log(parsedNotes)
         }
     })
+});
+
+// receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client.
+app.post('/api/notes', (req, res) => {
+    console.info(`${req.method} request received to add a new note`);
+
+    const newNote = {
+        title: req.body.title,
+        text: req.body.text,
+        id: uuid(),
+    };
+
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            let parsedData = JSON.parse(data);
+            parsedData.push(newNote);
+            // console.log(parsedData);
+
+            parsedData = JSON.stringify(parsedData);
+        
+            fs.writeFile('./db/db.json', parsedData, (err) => {
+                if (err) {
+                    console.error(err)
+                } else {
+                    res.json(parsedData)
+                    console.log(parsedData)
+                    console.log("File written successfully"); 
+                }
+            })
+        }
+    })
+
 });
 
 // Get route for homepage
