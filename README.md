@@ -16,7 +16,7 @@ Quickly and easily manage/create notes via this web application.
 
 ## ProjectLinks
 
-- This project is deployed to Heroku: 
+- This project is deployed to Heroku: https://note-taker-app0105-f69c2334a2f9.herokuapp.com/
 
 
 ![1](https://github.com/Erik-Aku/Note-Taker/assets/92487526/133d66ec-aa89-4668-8fed-3a1663d52c8a)
